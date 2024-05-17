@@ -1,0 +1,202 @@
+<!-- saved from url=(0052)http://ist.ksc.kwansei.ac.jp/prog1/problems/E13.html -->
+<html lang="ja"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.10.0 for Windows">
+ <title>プログラミング実習II 課題 (2023) [E13]</title>
+</head>
+<body link="blue" bgcolor="white" alink="red" vlink="purple">
+<hr>
+<p align="right"><strong>プログラミング実習II (2023) 課題</strong></p>
+<p align="center"><strong><big><big>[E13] 総合演習</big></big></strong></p>
+<hr>
+
+
+
+
+<p>
+<b>(E13_1)</b> 
+ある銀行口座では，毎年3月15日の時点でその時の預金残高の 0.5% の利息が加算される．ただし，小数点以下は切り捨てられる．この口座に，毎年4月1日に 55555 円を入金する．入金をはじめてから n 年後の3月31日の口座の預金残高を求めて表示するプログラムを作成せよ．
+<!-- 小数点以下を切り捨てた形で表示するプログラムを作成せよ -->
+
+ただし, 正の整数 n はキーボードから受け取るものとする．また，double 型の変数を int 型にキャストすることで小数点以下は切り捨てられる．
+<ul>
+次の結果が得られることを確認せよ．
+ <ul>
+  <li> n=1 → 55832
+  <li> n=2 → 111943
+  <li> n=3 → 168335
+  <li> n=5 → 281966
+  <li> n=10 → 571053
+ </ul>
+</ul>
+
+
+
+
+<b>(E13_2)</b>
+キーボードから正の整数 n と正の実数 x を受け取り，
+ x, 2x<sup>2</sup>, 3x<sup>3</sup>, ..., nx<sup>n</sup> の和，つまり
+<p>
+<!--<img src="T13_files/sum.png" style="vertical-align: -3.171ex; height:7.509ex;"> -->
+<img src="./sum.png" style="vertical-align: -3.171ex; height:7.509ex;">
+</p><p>
+を計算し，計算結果を表示するプログラムを作成せよ．
+
+x<sup>i</sup> を計算する際には，[リスト 5.2] を改良した double powdbl( double x, int p ) を作成して用いることとする．scanf で実数を読み込む場合の書式は %lf である． 
+</p>
+
+
+
+<p>
+<b>(E13_3)</b>
+
+（数学的な意味での）関数 g は実数 x に対して x + 1.0 の平方根を出力する．double 型の引数 x に対して g の関数値 g( x ) を計算して戻り値とする関数 double compg( double x ) を作成せよ．math.h で定義されている関数 sqrt を用いてよい．
+
+<br>
+
+次に main 関数において正の実数 x と正の整数 n をキーボードから受け取る．x に対する関数値 g( x ) を計算して表示し，さらにそれを g に入力した関数値 g( g( x ) ) を求めて表示，さらにそれを g に入力した関数値 g( g( g ( x ) ) ) を計算して表示，…を行うプログラムを作成せよ．g を n 回用いた関数値を表示した時点で終了とする．
+
+<br>
+変数 x を関数 compg へ引数として渡すとき，関数の戻り値を x に代入することで 1重の for 文により処理が済むことに注意するとよい．
+
+<pre>（表示例：数値は正しいとは限らない）
+x = 10.0，n = 10 であるときの出力：
+
+3.316625
+2.077649
+1.754323
+1.659615
+1.630833
+1.621984
+1.619254
+1.618411
+1.618150
+1.618070
+</pre>
+
+
+
+
+
+<p><b>(E13_4)</b> 指数関数 f(x)= e<sup>x</sup> の x = a における微分係数を定義に従って近似的に求めるプログラムを作成する．
+<ul>
+<li> double 型の変数 x, h を引数とし，g( x, h ) = ( f( x+h )- f( x ) ) / h を戻り値とする関数
+double g(double x, double h) を作成せよ．指数関数の計算は，&lt;math.h&gt; の exp を用いればよい．
+<li> main 関数において，キーボードから double 型の値 a を受け取り，
+h の初期値を1.0として 1.0 から 0.5, 0.25, ... のように繰り返し 1/2 倍していくときの
+g( a, h ) の値を順に20個求めてそれぞれ表示せよ．
+double型の変数に対しては，scanf()の書式は &#37lfとなることに注意する．
+</ul>
+
+f(x)の導関数を f'(x) として，f'( a ) の値と表示された結果を比較してレポートにて考察せよ．
+
+<pre>
+出力例　
+
+g( 1.000000, 1.000000 ) = 4.670774
+g( 1.000000, 0.500000 ) = 3.526814
+g( 1.000000, 0.250000 ) = 3.088245
+g( 1.000000, 0.125000 ) = 2.895480
+g( 1.000000, 0.062500 ) = 2.805026
+            :
+    (以下略)
+</pre>
+
+<p>
+  <table cellSpacing=0 cellPadding=5 border=1>
+    <tbody>
+    <tr>
+      <td><pre>
+#include &lt;stdio.h&gt;
+
+int main( void )
+{
+    int i, w;
+    double h;
+
+    w = 1;
+    for( i = 0; i < 20; i ++ ){
+
+        h = 1.0 / (double)w;
+        printf("%d \t %.25f \n", w, h);  /* コメントアウトすること */
+
+        /* 関数の呼び出し */
+
+        /* 数値の表示 */
+
+        w *= 2;
+
+    }
+
+  return 0;
+}
+</pre></td></tr></tbody></table></p>
+
+
+<!--
+<s>
+<p><b>(E13_6)</b> 関数 f(x)=x<sup>2</sup> + 3x + 5 の x = a における微分係数を定義に従って近似的に求めるプログラムを作成する．
+<ul>
+<li> double 型の変数 x を引数とし，f(x) を戻り値とする関数 double f(double x) を作成せよ．
+<li> double 型の変数 x, h を引数とし，g( x, h ) = ( f( x+h )- f( x ) ) / h を戻り値とする関数
+double g(double x, double h) を作成せよ．
+<li> main 関数において，キーボードから double 型の値 a を受け取り，
+h の初期値を1.0として 1.0 から 0.5, 0.25, ... のように繰り返し 1/2 倍していくときの
+g( a, h ) の値を順に20個求めてそれぞれ表示せよ．
+double型の変数に対しては，scanf()の書式は &#37lfとなることに注意する．
+</ul>
+
+f(x)の導関数を f'(x) = 2x + 3 として，f'( a ) の値と表示された結果を比較してレポートにて考察せよ．
+
+<pre>
+出力例　
+
+g(2.000000, 1.000000)=8.000000
+g(2.000000, 0.500000)=7.500000
+g(2.000000, 0.250000)=7.250000
+g(2.000000, 0.125000)=7.125000
+g(2.000000, 0.062500)=7.062500
+  :
+    (以下略)
+</pre>
+
+<p>
+  <table cellSpacing=0 cellPadding=5 border=1>
+    <tbody>
+    <tr>
+      <td><pre>
+#include &lt;stdio.h&gt;
+
+int main( void )
+{
+    int i, w;
+    double h;
+
+    w = 1;
+    for( i = 0; i < 20; i ++ ){
+
+        h = 1.0 / (double)w;
+        printf("%d \t %.25f \n", w, h);  /* コメントアウトすること */
+
+        /* 関数の呼び出し */
+
+        /* 数値の表示 */
+
+        w *= 2;
+
+    }
+
+  return 0;
+}
+</pre></td></tr></tbody></table></p>
+</s>
+-->
+
+<p><b>(E13_5*)</b> 
+
+本実習のオプション課題として適した難易度の問題を自作して，その解答プログラムを作成して下さい．
+プログラミング実習IIで扱う項目であれば，いずれの項目を扱うものでも（複数の項目にまたがる問題でも）構いません．
+
+
+</body></html>
